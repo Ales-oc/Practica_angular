@@ -1,0 +1,43 @@
+<div class="container mt-5 w-75">
+  <p-card>
+    <div class="row">
+      <section class="col mr-3">
+        <div class="row p-5">
+          <img *ngIf="cripto.logo_url; else sin_logo" class="img-fluid col-2" src="{{cripto.logo_url}}" alt="{{cripto.id}}_logo">
+          <ng-template #sin_logo>
+            <img src="https://www.svgrepo.com/show/391524/question-circle.svg" class="img-fluid col-2"  alt="{{cripto.id}}_logo">
+          </ng-template>
+          <h3 class="col-10">
+            {{cripto.name}}
+            <h5 class=" text-black-50">{{cripto.id}}</h5>
+          </h3>
+        </div>
+
+        <div class="row pr-8 pl-5 py-4">
+          <p-badge severity="info" class="col" value="Rank {{cripto.rank}}"></p-badge>
+          <p-badge *ngIf="cripto.status === 'active';else inactive" severity="success" class="col" value="{{cripto.status}}"></p-badge>
+          <ng-template #inactive><p-badge severity="danger" class="col" value="{{cripto.status}}"></p-badge></ng-template>
+          <p-badge severity="info" class="col" value="Exchanges: {{cripto.num_exchanges}}"></p-badge>
+        </div>
+      </section>
+      <section class="col ml-3">
+        <h3>{{cripto.id}} Price</h3>
+        <div class="row ml-2">
+          <h4 class="col">{{cripto.price | currency}}
+            <span *ngIf="cripto['1d'] !== undefined" class="col mr-8 rounded-2 text-light bg-secondary">{{cripto['1d'].price_change_pct | number:'1.0-3'}}%</span>
+          </h4>
+        </div>
+        <div class="row align-items-center">
+          <p-progressBar class="col ml-4 my-auto" [value]="porcentajePrecio" [style]="{'height': '6px', 'width':'210px', 'font-size':'0px'}"></p-progressBar>>
+          <span class="col mr-8 pr-8"><b>Máx. histórico:</b> {{cripto.high | currency}}</span>
+        </div>
+        <div class="m-4">
+          Última actualización:
+          <p-badge severity="info" value="{{cripto.price_timestamp | date:'medium'}}"></p-badge>
+        </div>
+      </section>
+    </div>
+  </p-card>
+
+</div>
+

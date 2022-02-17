@@ -1,0 +1,22 @@
+
+
+<p-sidebar [(visible)]="display">
+  <h2 class="pt-3">Búsqueda de criptos</h2>
+  <div class="block">
+    <button pButton pRipple type="button" label="Búsqueda Libre" (click)="changeRoute('libre')" class="p-button-raised p-button-secondary" icon="pi pi-search"></button>
+    <button pButton pRipple type="button" label="Búsqueda por criptos" (click)="changeRoute('ranking')" class="p-button-raised p-button-secondary mt-3">
+      <i class="me-2 bi bi-currency-bitcoin"></i>
+    </button>
+  </div>
+  <div *ngIf="historial.length > 0" class="block mt-6">
+    <p-listbox [options]="historial" [metaKeySelection]="false" optionLabel="name" [listStyle]="{'max-height':'250px'}" [style]="{'width':'15rem'}">
+      <ng-template let-cripto pTemplate="item" >
+        <div class="w-100" routerLink="/cripto/{{cripto}}">{{cripto}}</div>
+      </ng-template>
+    </p-listbox>
+  </div>
+</p-sidebar>
+
+<button pButton type="text" (click)="display = true" icon="pi pi-bars" class="p-button-raised p-button-secondary m-3"></button>
+
+

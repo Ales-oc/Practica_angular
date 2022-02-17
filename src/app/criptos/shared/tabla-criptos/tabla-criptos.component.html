@@ -1,0 +1,61 @@
+<section
+*ngIf="criptos.length > 0"
+class="mt-6 mr-md-6 mr-lg-8 p-4 bg-bluegray-100 container border-2 border-bluegray-300">
+
+  <p-table [value]="criptos" responsiveLayout="scroll">
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        {{ criptos.length | i18nPlural: messageMapping }}
+        <p-button icon="pi pi-refresh" (onClick)="reload()"></p-button>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Rank</th>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>Volumen (24h)</th>
+        <th>Diferencia de volumen (%)</th>
+        <th>Valor (1w)</th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-cripto>
+      <tr>
+        <td>
+          #{{cripto.rank}}
+        </td>
+        <td class="w-25">
+          <span class="col-10 fw-bold">
+          <img *ngIf="cripto.logo_url; else sin_logo" class="img-fluid col-2" src="{{cripto.logo_url}}" alt="{{cripto.id}}_logo" width="15" height="15">
+          <ng-template #sin_logo>
+            <img src="https://www.svgrepo.com/show/391524/question-circle.svg" class="img-fluid col-2"  alt="{{cripto.id}}_logo" width="15" height="15">
+          </ng-template>
+            {{cripto.name}}
+          </span>
+          <span class="row ml-5 text-black-50">{{cripto.id}}</span>
+        </td>
+        <td>
+          <span>{{ cripto.price | currency }}</span>
+        </td>
+        <td>
+          <span *ngIf="cripto['1d'] !== undefined">{{cripto['1d'].volume | currency}}</span>
+        </td>
+        <td>
+          <span *ngIf="cripto['1d'] !== undefined">{{cripto['1d'].volume_change_pct | percent}}</span>
+        </td>
+        <td *ngIf="cripto.status === 'active';else dead">
+          <span *ngIf="cripto['7d'] !== undefined && cripto['7d'].price_change_pct>0; else bajando" class="bg-success rounded-2 p-2 text-light">Subiendo <i class="bi bi-graph-up-arrow"></i></span>
+          <ng-template #bajando>
+            <span class="bg-danger rounded-2 p-2 text-light">Bajando <i class="bi bi-graph-down-arrow"></i></span>
+          </ng-template>
+        </td>
+        <ng-template #dead>
+          <td><span class="bg-secondary rounded-2 p-2 text-light">Inactiva <i class="bi bi-x-lg"></i></span></td>
+        </ng-template>
+        <td><a href="cripto/{{cripto.id}}">Ver más</a></td>
+      </tr>
+  </ng-template>
+  </p-table>
+
+</section>
